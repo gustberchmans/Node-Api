@@ -1,13 +1,16 @@
 const express = require('express');
 const app = express();
 const { sequelize } = require('./models');
+const path = require('path');
+const { Sequelize, Op } = require('sequelize');
 
 // Middleware to parse JSON data from requests
 app.use(express.json());
 
-// A basic route
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
-    res.send('Welcome to your API!');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Server listens on port 3000
@@ -40,13 +43,28 @@ app.get('/users/:id', async (req, res) => {
 
 // POST a new user
 app.post('/users', async (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Log the received body to check if it's coming as expected
+  console.log('Received body:', req.body);
+
+  // Validate that the name is a string and contains only letters (no numbers, no special characters)
+  const nameIsValid = /^[A-Za-z]+$/.test(name); // Only alphabetic characters allowed
+
+  if (!nameIsValid) {
+    return res.status(400).send('Name must only contain letters and cannot contain numbers or special characters.');
+  }
+
   try {
-    const user = await User.create(req.body);
+    // Create the user only if the validation passed
+    const user = await User.create({ name, email, password });
     res.status(201).json(user);
   } catch (error) {
     res.status(400).send(error.message);
   }
 });
+
+
 
 // PUT (update) an existing user
 app.put('/users/:id', async (req, res) => {
@@ -70,10 +88,63 @@ app.delete('/users/:id', async (req, res) => {
   }
 });
 
-// GET all posts
 app.get('/posts', async (req, res) => {
-  const posts = await Post.findAll();
-  res.json(posts);
+  const limit = parseInt(req.query.limit) || 10; // default to 10 posts per page
+  const offset = parseInt(req.query.offset) || 0; // default to the first page
+
+  try {
+    const posts = await Post.findAll({ limit, offset });
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+// Middleware for basic validation
+const validatePost = (req, res, next) => {
+  const { title, content, UserId } = req.body;
+  if (!title || !content || !UserId) {
+    return res.status(400).send('Title, content, and author are required');
+  }
+  if (typeof title !== 'string' || typeof content !== 'string' || typeof UserId !== 'string') {
+    return res.status(400).send('Title, content, and author must be strings');
+  }
+  next();
+};
+
+app.post('/posts', validatePost, async (req, res) => {
+  try {
+    const post = await Post.create(req.body);
+    res.status(201).json(post);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+app.get('/posts/search', async (req, res) => {
+  const { query } = req.query;
+  if (!query) {
+    return res.status(400).send('Search query is required');
+  }
+
+  try {
+    const posts = await Post.findAll({
+      where: {
+        [Sequelize.Op.or]: [
+          { title: { [Sequelize.Op.like]: `%${query}%` } },
+          { UserId: { [Sequelize.Op.like]: `%${query}%` } }
+        ]
+      }
+    });
+
+    if (posts.length === 0) {
+      return res.status(404).send('No posts found matching the query');
+    }
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
 
 // GET a single post
@@ -83,16 +154,6 @@ app.get('/posts/:id', async (req, res) => {
     res.json(post);
   } else {
     res.status(404).send('Post not found');
-  }
-});
-
-// POST a new post
-app.post('/posts', async (req, res) => {
-  try {
-    const post = await Post.create(req.body);
-    res.status(201).json(post);
-  } catch (error) {
-    res.status(400).send(error.message);
   }
 });
 
@@ -116,20 +177,4 @@ app.delete('/posts/:id', async (req, res) => {
   } else {
     res.status(404).send('Post not found');
   }
-});
-
-app.get('/api-docs', (req, res) => {
-  res.send(`
-    <h1>API Documentation</h1>
-    <p><strong>GET /users</strong> - Get all users</p>
-    <p><strong>GET /users/:id</strong> - Get a specific user by ID</p>
-    <p><strong>POST /users</strong> - Create a new user</p>
-    <p><strong>PUT /users/:id</strong> - Update a user</p>
-    <p><strong>DELETE /users/:id</strong> - Delete a user</p>
-    <p><strong>GET /posts</strong> - Get all posts</p>
-    <p><strong>GET /posts/:id</strong> - Get a specific post by ID</p>
-    <p><strong>POST /posts</strong> - Create a new post</p>
-    <p><strong>PUT /posts/:id</strong> - Update a post</p>
-    <p><strong>DELETE /posts/:id</strong> - Delete a post</p>
-  `);
 });
