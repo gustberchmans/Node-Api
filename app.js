@@ -122,7 +122,8 @@ app.post('/posts', validatePost, async (req, res) => {
 });
 
 app.get('/posts/search', async (req, res) => {
-  const { query } = req.query;
+  const { query, sortBy = 'createdAt', order = 'ASC' } = req.query;
+
   if (!query) {
     return res.status(400).send('Search query is required');
   }
@@ -130,11 +131,13 @@ app.get('/posts/search', async (req, res) => {
   try {
     const posts = await Post.findAll({
       where: {
-        [Sequelize.Op.or]: [
-          { title: { [Sequelize.Op.like]: `%${query}%` } },
-          { UserId: { [Sequelize.Op.like]: `%${query}%` } }
+        [Op.or]: [
+          { title: { [Op.like]: `%${query}%` } },
+          { content: { [Op.like]: `%${query}%` } },
+          { UserId: { [Op.like]: `%${query}%` } }
         ]
-      }
+      },
+      order: [[sortBy, order.toUpperCase()]]
     });
 
     if (posts.length === 0) {

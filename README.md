@@ -127,6 +127,9 @@ Alternatively, here’s an overview of the API endpoints:
 - **GET /posts/search?query=**: Search posts by title or author  
   Example URL: `http://localhost:3000/posts/search?query=mytitle`
 
+- **GET /posts/search?query=**: Search posts by title or author  
+  Example URL: `http://localhost:3000/posts/search?query=mytitle&sortBy=title&order=ASC`
+
 ---
 
 ## **4. Using the API with Postman**
