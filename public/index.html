@@ -4,32 +4,128 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>API Endpoints</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    a {
+      color: #4a90e2; /* Soft blue color for links */
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    pre {
+      background-color: #f9f9f9; /* Light gray for JSON examples */
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+      color: #333; /* Soft black for text */
+      overflow-x: auto;
+    }
+    li {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <h1>API Endpoints</h1>
   <ul>
-    <li>GET /users - List all users</li>
-    <li>POST /users - Create a new user</li>
-    <ul>
-      <li>name</li>
-      <li>email</li>
-    </ul>
-    <li>GET /users/:id - Get a user by ID</li>
-    <li>PUT /users/:id - Update a user by ID</li>
-    <li>DELETE /users/:id - Delete a user by ID</li>
+    <li>
+      <strong>GET /users</strong> - List all users
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/users" target="_blank">http://localhost:3000/users</a>
+    </li>
+    <li>
+      <strong>POST /users</strong> - Create a new user
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/users" target="_blank">http://localhost:3000/users</a>
+      <br>
+      <em>Example JSON Body:</em>
+      <pre>
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+      </pre>
+    </li>
+    <li>
+      <strong>GET /users/:id</strong> - Get a user by ID
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/users/1" target="_blank">http://localhost:3000/users/1</a>
+    </li>
+    <li>
+      <strong>PUT /users/:id</strong> - Update a user by ID
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/users/1" target="_blank">http://localhost:3000/users/1</a>
+      <br>
+      <em>Example JSON Body:</em>
+      <pre>
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com"
+}
+      </pre>
+    </li>
+    <li>
+      <strong>DELETE /users/:id</strong> - Delete a user by ID
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/users/1" target="_blank">http://localhost:3000/users/1</a>
+    </li>
 
-    <li>GET /posts - List all posts</li>
-    <li>POST /posts - Create a new post</li>
-    <ul>
-      <li>title</li>
-      <li>content</li>
-      <li>UserId</li>
-    </ul>
-    <li>GET /posts/:id - Get a post by ID</li>
-    <li>PUT /posts/:id - Update a post by ID</li>
-    <li>DELETE /posts/:id - Delete a post by ID</li>
-    <li>GET /posts?limit=&offset= - Get posts with pagination</li>
-    <li>GET /posts/search?query= - Search posts by title or author</li>
+    <li>
+      <strong>GET /posts</strong> - List all posts
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/posts" target="_blank">http://localhost:3000/posts</a>
+    </li>
+    <li>
+      <strong>POST /posts</strong> - Create a new post
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/posts" target="_blank">http://localhost:3000/posts</a>
+      <br>
+      <em>Example JSON Body:</em>
+      <pre>
+{
+  "title": "My First Post",
+  "content": "This is the content of the post",
+  "UserId": 1
+}
+      </pre>
+    </li>
+    <li>
+      <strong>GET /posts/:id</strong> - Get a post by ID
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/posts/1" target="_blank">http://localhost:3000/posts/1</a>
+    </li>
+    <li>
+      <strong>PUT /posts/:id</strong> - Update a post by ID
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/posts/1" target="_blank">http://localhost:3000/posts/1</a>
+      <br>
+      <em>Example JSON Body:</em>
+      <pre>
+{
+  "title": "Updated Post Title",
+  "content": "Updated post content",
+  "UserId": 1
+}
+      </pre>
+    </li>
+    <li>
+      <strong>DELETE /posts/:id</strong> - Delete a post by ID
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/posts/1" target="_blank">http://localhost:3000/posts/1</a>
+    </li>
+    <li>
+      <strong>GET /posts?limit=&offset=</strong> - Get posts with pagination
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/posts?limit=2&offset=1" target="_blank">http://localhost:3000/posts?limit=2&offset=1</a>
+    </li>
+    <li>
+      <strong>GET /posts/search?query=</strong> - Search posts by title or author
+      <br>
+      <em>Example URL:</em> <a href="http://localhost:3000/posts/search?query=world" target="_blank">http://localhost:3000/posts/search?query=world</a>
+    </li>
   </ul>
 </body>
 </html>

@@ -1,5 +1,5 @@
 {
-  "name": "node-api",
+  "name": "api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,10 +8,19 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "https://chatgpt.com/share/6787c63a-4218-800b-9b88-ee066a6cb826",
   "dependencies": {
     "express": "^4.21.2",
     "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gustberchmans/Node-Api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gustberchmans/Node-Api/issues"
+  },
+  "homepage": "https://github.com/gustberchmans/Node-Api#readme"
 }
