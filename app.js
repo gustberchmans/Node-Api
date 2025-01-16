@@ -3,6 +3,9 @@ const app = express();
 const { sequelize } = require('./models');
 const path = require('path');
 const { Sequelize, Op } = require('sequelize');
+const bcrypt = require('bcryptjs');
+const User = require('./models/user');
+const Post = require('./models/post');
 
 // Middleware to parse JSON data from requests
 app.use(express.json());
@@ -17,9 +20,6 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
-
-const User = require('./models/user');
-const Post = require('./models/post');
 
 sequelize.sync().then(() => {
   console.log('Database synced!');
@@ -63,8 +63,6 @@ app.post('/users', async (req, res) => {
     res.status(400).send(error.message);
   }
 });
-
-
 
 // PUT (update) an existing user
 app.put('/users/:id', async (req, res) => {

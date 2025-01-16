@@ -24,6 +24,7 @@ Before using this project, ensure the following are installed on your system:
    npm init -y
    npm install express
    npm install sequelize sqlite3
+   npm install jsonwebtoken bcryptjs
    ```
 
 3. Start the server:

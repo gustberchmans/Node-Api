@@ -10,11 +10,13 @@
   "license": "ISC",
   "description": "https://chatgpt.com/share/6787c63a-4218-800b-9b88-ee066a6cb826",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "sequelize": "^6.37.5",
+    "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gustberchmans/Node-Api.git"
